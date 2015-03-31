@@ -9,6 +9,11 @@ Bundler.require(*Rails.groups)
 module GpsMytruckApi
 	class Application < Rails::Application
 
+		ActiveModel::Serializer.setup do |config|
+			config.embed = :ids
+			#config.embed_in_root = false
+		end
+
 		config.middleware.insert_before 0, "Rack::Cors" do
 			allow do
 				origins '*'
@@ -16,6 +21,6 @@ module GpsMytruckApi
 			end
 		end		
 
-		config.active_record.raise_in_transactional_callbacks = true
+		#config.active_record.raise_in_transactional_callbacks = true
 	end
 end
