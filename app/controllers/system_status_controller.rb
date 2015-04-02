@@ -1,4 +1,4 @@
-class SystemStatusController < ActionController::API
+class SystemStatusController < ApplicationController
 
 	def index
 		head :ok
