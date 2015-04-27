@@ -1,4 +1,5 @@
 class CompanySerializer < ApplicationSerializer
-	attributes :name
+	attributes :name,:towbook,:audit
 	has_one :user
+	has_many :devices
 end
