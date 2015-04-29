@@ -18,12 +18,7 @@ class SessionsController < AuthenticatedController
 	end
 
 	def index
-		session = Session.find_by_token params[:token]
-		if session
-			render json: [session]
-		else
-			head :unauthorized
-		end
+		render json: [current_session]
 	end
 
 	def destroy

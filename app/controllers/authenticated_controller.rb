@@ -6,10 +6,14 @@ class AuthenticatedController < ApplicationController
 		head :unauthorized unless current_user
 	end
 
-	# Returns the user associated with the access token if available
-	def current_user
+	# Returns the session associated with the access token if available
+	def current_session
 		@current_session ||= Session.find_by_token token
-		@current_user ||= @current_session.present? ? @current_session.user : nil
+	end
+
+	# Returns the user associated with the current session if available
+	def current_user
+		@current_user ||= current_session.present? ? current_session.sessionable : nil
 	end
 
 	def token
