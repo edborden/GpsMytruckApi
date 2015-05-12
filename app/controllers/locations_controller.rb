@@ -4,13 +4,15 @@ class LocationsController < AuthenticatedController
 	def index
 
 		device = Device.find params[:device_id]
-		locations = device.locations
+		startTime = Moment.new(params[:start]).to_ruby
+		endTime = Moment.new(params[:end]).to_ruby
+		locations = device.locations.where(time: startTime..endTime)
 
 		respond_to do |format|
 
 			format.csv do
-				csv = locations.to_csv
-				send_data csv, filename: "#{device.hardware_id}.csv", type: "application/csv"
+				csv = Location.to_csv locations
+				send_data csv, filename: "Truck #{device.truck_id}.csv", type: "application/csv"
 			end
 
 		end

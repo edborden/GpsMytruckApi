@@ -7,7 +7,7 @@ class MessageController < ApplicationController
 		hardware_id = params[:data][:device_name]
 		lat = params[:data][:gps_latitude]
 		lng = params[:data][:gps_longitude]
-		time = params[:data][:event_timestamp]
+		time = Moment.new(params[:data][:event_timestamp]).to_ruby
 
 		device = Device.find_by hardware_id: hardware_id
 
@@ -20,7 +20,7 @@ class MessageController < ApplicationController
 			end
 
 			if company.audit
-				return
+				Location.create lat:lat,lng:lng,time:time,device_id:device.id
 			end
 
 		end

@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "locations", force: true do |t|
     t.string   "lat"
     t.string "lng"
-    t.string "time"
+    t.datetime "time"
     t.integer "device_id"
   end
   add_index "devices", ["company_id"]
