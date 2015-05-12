@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "devices", force: true do |t|
     t.string   "hardware_id"
     t.integer "company_id"
+    t.string "truck_id"
   end
   add_index "devices", ["company_id","hardware_id"]
 

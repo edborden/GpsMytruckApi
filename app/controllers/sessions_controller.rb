@@ -1,5 +1,5 @@
 class SessionsController < AuthenticatedController
-	skip_before_action :ensure_authenticated_user, except: :destroy
+	skip_before_action :ensure_authenticated_user, only: :create
 
 	def create
 		user = User.find_by_email params[:session][:email]
@@ -22,7 +22,7 @@ class SessionsController < AuthenticatedController
 	end
 
 	def destroy
-		current_user.session.destroy
+		current_session.destroy
 		head :no_content
 	end
 
