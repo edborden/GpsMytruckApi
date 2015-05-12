@@ -1,5 +1,5 @@
 class Location < ActiveRecord::Base
-	belongs_to :device, dependent: :destroy
+	belongs_to :device, counter_cache: true
 
 	def self.to_csv collection
 		CSV.generate do |csv|

@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "hardware_id"
     t.integer "company_id"
     t.string "truck_id"
+    t.integer  "locations_count", default: 0, null: false    
   end
   add_index "devices", ["company_id","hardware_id"]
 
