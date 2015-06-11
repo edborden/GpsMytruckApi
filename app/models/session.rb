@@ -1,5 +1,5 @@
 class Session < ActiveRecord::Base
-	belongs_to :user
+	belongs_to :sessionable, polymorphic:true
 	before_create :issue_token
 
 	def issue_token

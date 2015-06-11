@@ -13,7 +13,7 @@ class AuthenticatedController < ApplicationController
 
 	# Returns the user associated with the current session if available
 	def current_user
-		@current_user ||= current_session.present? ? current_session.user : nil
+		@current_user ||= current_session.present? ? current_session.sessionable : nil
 	end
 
 	def token

@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :companies, only: [:create,:update,:destroy]
   resources :devices, only: [:create,:destroy] do
   	resources :locations, only: :index
+  	resources :mileage, only: :index
   end
 end
