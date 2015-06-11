@@ -14,7 +14,7 @@ class TotalMileageReport
 			end
 			last_location = location
 		end
-		total_miles = GeoCalc::km_to_m(total_m*1000)
+		total_miles = GeoCalc::km_to_m(total_m/1000)
 	end
 
 	def distance_locations loc1,loc2
