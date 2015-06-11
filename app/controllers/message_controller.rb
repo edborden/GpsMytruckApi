@@ -20,7 +20,10 @@ class MessageController < ApplicationController
 			end
 
 			if company.audit
-				Location.create lat:lat,lng:lng,time:time,device_id:device.id
+				last_device_location = device.locations.last
+				unless last_device_location.lat == lat && last_device_location.lng == lng
+					Location.create lat:lat,lng:lng,time:time,device_id:device.id
+				end
 			end
 
 		end
