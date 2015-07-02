@@ -8,6 +8,12 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'bcrypt'
 gem 'active_model_serializers',"0.8.3"
 gem 'httparty'
+gem 'ar-find-in-batches-with-order'
+
+group :test do
+	gem 'mocha', "~> 1.0.0"
+	gem "faker"
+end
 
 group :production do
 	gem 'rails_12factor'
