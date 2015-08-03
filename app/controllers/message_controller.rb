@@ -8,6 +8,7 @@ class MessageController < ApplicationController
 		lat = params[:data][:gps_latitude]
 		lng = params[:data][:gps_longitude]
 		time = Moment.new(params[:data][:event_timestamp]).to_ruby
+		event_code = params[:data][:event_code].to_i
 
 		device = Device.find_by hardware_id: hardware_id
 
@@ -20,14 +21,32 @@ class MessageController < ApplicationController
 			end
 
 			if company.audit
-				last_device_location = device.locations.last
+				distance_traveled = 0
+				last_device_location = device.locations.order(:time).last
 				if last_device_location
-					unless last_device_location.lat == lat && last_device_location.lng == lng
-						Location.create lat:lat,lng:lng,time:time,device_id:device.id
+					distance_traveled = GeoCalc::distance last_device_location.lat.to_f,last_device_location.lng.to_f,lat.to_f,lng.to_f
+					unless distance_traveled > 0
+						Location.create lat:lat,lng:lng,time:time,device_id:device.id,distance_traveled:distance_traveled
 					end
 				else
-					Location.create lat:lat,lng:lng,time:time,device_id:device.id
+					Location.create lat:lat,lng:lng,time:time,device_id:device.id,distance_traveled:distance_traveled
 				end
+
+				push_to_hos = hardware_id == "357330051149722" || hardware_id == "357330051056018" || hardware_id == "352648068890763" || hardware_id == "352648067497321"
+				hos_event = event_code == 33 || event_code == 35 || event_code == 3
+				if push_to_hos && hos_event
+					unless event_code == 3 && !device.driving
+						Hos.new.post hardware_id,lat,lng,time,event_code,distance_traveled
+					end
+				end
+
+				case event_code
+				when 33
+					device.set_driving
+				when 35
+					device.set_not_driving
+				end
+
 			end
 
 		end
