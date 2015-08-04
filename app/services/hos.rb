@@ -8,8 +8,6 @@ class Hos
 
 	def post hardware_id,lat,lng,time,event_code,distance_traveled
 
-		
-
 		query = {
 			p1: @user,
 			p2: @pass,
@@ -23,8 +21,8 @@ class Hos
 			p10: distance_traveled
 		}
 
-		HTTParty.post 'https://atsdriverdev.abw.com/atsrs/Svc1.svc/GPSReceive', {query: query}
-
+		response = HTTParty.post 'https://atsdriverdev.abw.com/atsrs/Svc1.svc/GPSReceive', {query: query}
+		puts response.body, response.code, response.message, response.headers.inspect
 	end
 
 	def event_name event_code

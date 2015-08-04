@@ -33,11 +33,7 @@ class MessageController < ApplicationController
 				end
 
 				push_to_hos = hardware_id == "357330051149722" || hardware_id == "357330051056018" || hardware_id == "352648068890763" || hardware_id == "352648067497321"
-				puts "push_to_hos"
-				puts push_to_hos
 				hos_event = event_code == 33 || event_code == 35 || event_code == 3
-				puts "hos_event"
-				puts hos_event
 				if push_to_hos && hos_event
 					puts event_code
 					puts device.driving
