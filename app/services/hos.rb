@@ -21,8 +21,8 @@ class Hos
 			p10: distance_traveled
 		}
 
-		response = HTTParty.post 'https://atsdriverdev.abw.com/atsrs/Svc1.svc/GPSReceive', {query: query}
-		puts response.body, response.code, response.message, response.headers.inspect
+		response = HTTParty.get 'https://atsdriverdev.abw.com/atsrs/Svc1.svc/GPSReceive', {query: query}
+		puts response.code, response.message, response.headers.inspect
 	end
 
 	def event_name event_code
