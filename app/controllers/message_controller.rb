@@ -24,7 +24,8 @@ class MessageController < ApplicationController
 				distance_traveled = 0
 				last_device_location = device.locations.order(:time).last
 				if last_device_location
-					distance_traveled = GeoCalc::distance last_device_location.lat.to_f,last_device_location.lng.to_f,lat.to_f,lng.to_f
+					distance_traveled = GeoCalc::distance(last_device_location.lat.to_f,last_device_location.lng.to_f,lat.to_f,lng.to_f)
+					distance_traveled = GeoCalc::km_to_m(distance_traveled/1000)
 					unless distance_traveled > 0
 						Location.create lat:lat,lng:lng,time:time,device_id:device.id,distance_traveled:distance_traveled
 					end
