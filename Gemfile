@@ -9,6 +9,7 @@ gem 'bcrypt'
 gem 'active_model_serializers',"0.8.3"
 gem 'httparty'
 gem 'ar-find-in-batches-with-order'
+gem 'le'
 
 group :test do
 	gem 'mocha', "~> 1.0.0"
