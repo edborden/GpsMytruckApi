@@ -39,7 +39,7 @@ class MessageController < ApplicationController
 					puts event_code
 					puts device.driving
 					unless event_code == 3 && !device.driving
-						Hos.new.post hardware_id,lat,lng,time,event_code,distance_traveled
+						Hos.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_code,distance_traveled
 					end
 				end
 
