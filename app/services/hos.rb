@@ -22,7 +22,7 @@ class Hos
 		}
 
 		response = HTTParty.get 'https://atsdriverdev.abw.com/atsrs/Svc1.svc/GPSReceive', {query: query}
-		puts response.request,response.request.raw_body,response.request.uri,response.request.request_uri
+		puts response.request
 		puts response.body,response.code, response.message, response.headers.inspect
 
 	end
