@@ -11,7 +11,7 @@ class Hos
 
 	def post hardware_id,lat,lng,time,event_code,distance_traveled
 
-		time = time[0,18] + "Z"
+		time = time[0,19] + "Z"
 
 		p time
 
