@@ -13,6 +13,8 @@ class Hos
 
 		time = time[0,18] + "Z"
 
+		p time
+
 		queryString = "?p1=" + CGI.escape("{#{@user}}") + "&p2=" + CGI.escape("{#{@pass}}") + "&p3=" + CGI.escape("{#{@partner_id}}") + "&p4=" + CGI.escape("{#{hardware_id}}") + "&p5=" + CGI.escape("{#{time}}") + "&p6=" + CGI.escape("{#{lat}}") + "&p7=" + CGI.escape("{#{lng}}") + "&p8=" + CGI.escape("{#{event_code}}") + "&p9=" + CGI.escape("{#{event_name(event_code)}}") + "&p10=" + CGI.escape("{#{distance_traveled}}") + "&p11=" + CGI.escape("{}") + "&p12=" + CGI.escape("{}") + "&p13=" + CGI.escape("{}")
 
 		uri = URI.parse 'https://atsdriverdev.abw.com/atsrs/Svc1.svc/GPSReceive' + queryString
