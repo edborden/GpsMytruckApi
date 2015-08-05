@@ -1,4 +1,5 @@
 class Moment
+	attr_accessor :moment
 
 	def initialize moment
 		@moment = moment
