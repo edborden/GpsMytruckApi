@@ -3,4 +3,6 @@ runtime "ruby"
 file "../handlers/hos_handler.rb"
 file "../handlers/handler.rb"
 
+gem "iron_worker"
+
 exec "hos_worker.rb"

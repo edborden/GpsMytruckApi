@@ -1,11 +1,14 @@
+require 'iron_worker'
 require 'handler'
 require 'hos_handler'
 
-hardware_id = params[:hardware_id]
-lat = params[:lat]
-lng = params[:lng]
-time = params[:time]
-event_code = params[:event_code]
-distance_traveled = params[:distance_traveled]
+payload = IronWorker.payload
+
+hardware_id = payload[:hardware_id]
+lat = payload[:lat]
+lng = payload[:lng]
+time = payload[:time]
+event_code = payload[:event_code]
+distance_traveled = payload[:distance_traveled]
 
 HosHandler.new.post hardware_id,lat,lng,time,event_code,distance_traveled
