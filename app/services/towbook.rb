@@ -4,14 +4,14 @@ class Towbook
 		@key = "de60309eda4f4a529a56b7be755892eddd5ff06c22c548a2b8710113ca735d44"
 	end
 
-	def post hardware_id,lat,lng,time
+	def post location
 
 		body = {
 			companyId: 2,
-			deviceId: hardware_id,
-			latitude: lat,
-			longitude: lng,
-			timestamp: time
+			deviceId: location.device.hardware_id,
+			latitude: location.lat,
+			longitude: location.lng,
+			timestamp: location.time
 		}
 
 		options = {

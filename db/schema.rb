@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150803173034) do
+ActiveRecord::Schema.define(version: 20150806185114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,11 +37,12 @@ ActiveRecord::Schema.define(version: 20150803173034) do
   add_index "devices", ["hardware_id"], name: "index_devices_on_hardware_id", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "lat"
-    t.string   "lng"
+    t.decimal  "lat"
+    t.decimal  "lng"
     t.datetime "time"
     t.integer  "device_id"
-    t.float    "distance_traveled"
+    t.decimal  "distance_traveled", precision: 10, scale: 3, default: 0.0
+    t.integer  "event_code"
   end
 
   create_table "sessions", force: true do |t|

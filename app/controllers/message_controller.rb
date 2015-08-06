@@ -15,29 +15,26 @@ class MessageController < ApplicationController
 		if device
 
 			company = device.company
+			location = Location.new lat:lat,lng:lng,time:time,device_id:device.id,event_code:event_code,distance_traveled:0
 
 			if company.towbook
-				Towbook.new.post hardware_id,lat,lng,time
+				Towbook.new.post location
 			end
 
 			if company.audit
-				distance_traveled = 0
+
 				last_device_location = device.locations.order(:time).last
 				if last_device_location
-					distance_traveled = GeoCalc::distance(last_device_location.lat.to_f,last_device_location.lng.to_f,lat.to_f,lng.to_f)
-					distance_traveled = GeoCalc::km_to_m(distance_traveled/1000)
-					unless distance_traveled > 0
-						Location.create lat:lat,lng:lng,time:time,device_id:device.id,distance_traveled:distance_traveled
-					end
-				else
-					Location.create lat:lat,lng:lng,time:time,device_id:device.id,distance_traveled:distance_traveled
+					location.distance_traveled = LocationDistance.new(last_device_location,location).in_miles
 				end
+
+				location.save
+
+				puts event_code,device.driving
 
 				push_to_hos = hardware_id == "357330051149722" || hardware_id == "357330051056018" || hardware_id == "352648068890763" || hardware_id == "352648067497321"
 				hos_event = event_code == 33 || event_code == 35 || event_code == 3
 				if push_to_hos && hos_event
-					puts event_code
-					puts device.driving
 					unless event_code == 3 && !device.driving
 						IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:distance_traveled}
 					end

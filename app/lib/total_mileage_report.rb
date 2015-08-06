@@ -9,17 +9,13 @@ class TotalMileageReport
 		total_m = 0
 		@locations.find_each_with_order do |location|
 			if last_location
-				distance = distance_locations(last_location,location)
-				total_m += distance
+				distance = LocationDistance.new(last_location,location).in_meters
+				total_meters += distance
 			end
 			last_location = location
 		end
-		total_miles = GeoCalc::km_to_m(total_m/1000)
+		total_miles = GeoCalc::meters_to_miles(total_meters)
 		total_miles.round(2)
-	end
-
-	def distance_locations loc1,loc2
-		GeoCalc::distance loc1.lat.to_f,loc1.lng.to_f,loc2.lat.to_f,loc2.lng.to_f
 	end
 
 end
