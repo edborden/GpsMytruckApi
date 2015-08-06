@@ -33,7 +33,7 @@ class MessageController < ApplicationController
 				puts event_code,device.driving
 
 				push_to_hos = hardware_id == "357330051149722" || hardware_id == "357330051056018" || hardware_id == "352648068890763" || hardware_id == "352648067497321"
-				hos_event = event_code == 33 || event_code == 35 || event_code == 3
+				hos_event = event_code == 33 || event_code == 35 || event_code == 45 || event_code == 40 || event_code == 50
 				if push_to_hos && hos_event
 					unless event_code == 3 && !device.driving
 						IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:distance_traveled}

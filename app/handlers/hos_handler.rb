@@ -30,9 +30,9 @@ class HosHandler
 		case event_code
 		when 33
 			"Travel Start"
-		when 35,50
+		when 35,50,40
 			"Travel Stop"
-		when 3
+		when 45
 			"Drive"
 		end
 	end
