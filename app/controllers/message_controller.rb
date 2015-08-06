@@ -18,7 +18,7 @@ class MessageController < ApplicationController
 			location = Location.new lat:lat,lng:lng,time:time,device_id:device.id,event_code:event_code,distance_traveled:0
 
 			if company.towbook
-				Towbook.new.post location
+				IronWorkerHandler.new.handle :task,"towbook", {hardware_id:hardware_id,lat:lat,lng:lng,time:time}
 			end
 
 			if company.audit

@@ -1,0 +1,11 @@
+runtime "ruby"
+
+file "../handlers/towbook_handler.rb"
+file "../handlers/handler.rb"
+
+gem "httparty"
+gem "iron_worker"
+
+remote
+
+exec "towbook_worker.rb"

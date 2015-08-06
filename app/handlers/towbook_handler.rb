@@ -1,17 +1,20 @@
-class Towbook
+require 'httparty'
+
+class TowbookHandler
+	include Handler
 
 	def initialize
 		@key = "de60309eda4f4a529a56b7be755892eddd5ff06c22c548a2b8710113ca735d44"
 	end
 
-	def post location
+	def post hardware_id,lat,lng,time
 
 		body = {
 			companyId: 2,
-			deviceId: location.device.hardware_id,
-			latitude: location.lat,
-			longitude: location.lng,
-			timestamp: location.time
+			deviceId: hardware_id,
+			latitude: lat,
+			longitude: lng,
+			timestamp: time
 		}
 
 		options = {
