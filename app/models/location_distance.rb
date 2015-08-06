@@ -1,5 +1,5 @@
 class LocationDistance
-	attribute_accessor :in_meters
+	attr_accessor :in_meters
 
 	def initialize location1,location2
 		@location1 = location1
