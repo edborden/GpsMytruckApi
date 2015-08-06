@@ -9,6 +9,12 @@ gem 'bcrypt'
 gem 'active_model_serializers',"0.8.3"
 gem 'httparty'
 gem 'ar-find-in-batches-with-order'
+
+## Ironworker
+gem "iron_worker"
+gem "iron_worker_ng"
+
+## Logentries
 gem 'le'
 
 group :test do

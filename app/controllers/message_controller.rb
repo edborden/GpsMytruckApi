@@ -39,7 +39,7 @@ class MessageController < ApplicationController
 					puts event_code
 					puts device.driving
 					unless event_code == 3 && !device.driving
-						Hos.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_code,distance_traveled
+						IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:distance_traveled}
 					end
 				end
 

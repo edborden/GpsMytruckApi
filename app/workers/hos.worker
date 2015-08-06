@@ -1,0 +1,6 @@
+runtime "ruby"
+
+file "../handlers/hos_handler.rb"
+file "../handlers/handler.rb"
+
+exec "hos_worker.rb"
