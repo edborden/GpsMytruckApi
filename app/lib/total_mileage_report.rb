@@ -6,7 +6,7 @@ class TotalMileageReport
 
 	def run
 		last_location = nil
-		total_m = 0
+		total_meters = 0
 		@locations.find_each_with_order do |location|
 			if last_location
 				distance = LocationDistance.new(last_location,location).in_meters
