@@ -1,4 +1,7 @@
 class Location < ActiveRecord::Base
+	validates :lat, presence: true
+	validates :lng, presence: true
+
 	belongs_to :device, counter_cache: true
 
 	def self.to_csv collection
