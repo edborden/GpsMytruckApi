@@ -18,7 +18,8 @@ class MessageController < ApplicationController
 			location = Location.new lat:lat,lng:lng,time:time,device_id:device.id,event_code:event_code,distance_traveled:0
 
 			if company.towbook
-				IronWorkerHandler.new.handle :task,"towbook", {hardware_id:hardware_id,lat:lat,lng:lng,time:time}
+				TowbookHandler.new.post hardware_id,lat,lng,time
+				#IronWorkerHandler.new.handle :task,"towbook", {hardware_id:hardware_id,lat:lat,lng:lng,time:time}
 			end
 
 			if company.audit
@@ -36,7 +37,8 @@ class MessageController < ApplicationController
 				hos_event = event_code == 33 || event_code == 35 || event_code == 45 || event_code == 40 || event_code == 50
 				if push_to_hos && hos_event
 					unless event_code == 3 && !device.driving
-						IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:location.distance_traveled}
+						HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_code,location.distance_traveled
+						#IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:location.distance_traveled}
 					end
 				end
 
