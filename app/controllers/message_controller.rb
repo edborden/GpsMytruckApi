@@ -42,7 +42,6 @@ class MessageController < ApplicationController
 						if device.driving
 
 							if event_code == 35 || event_code == 45
-								distance_traveled = 0 if event_code == 35
 								HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_code,distance_traveled
 								#IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:location.distance_traveled}
 							end
