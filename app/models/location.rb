@@ -1,6 +1,5 @@
 class Location < ActiveRecord::Base
-	validates :lat, presence: true
-	validates :lng, presence: true
+	validates_presence_of :lat,:lng
 
 	belongs_to :device, counter_cache: true
 

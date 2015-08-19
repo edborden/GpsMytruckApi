@@ -12,10 +12,4 @@ class Device < ActiveRecord::Base
 		save
 	end
 
-	def last_10_codes
-		array = []
-		locations.order(:time).last(10).each { |loc| array.push loc.event_code}
-		return array
-	end
-
 end
