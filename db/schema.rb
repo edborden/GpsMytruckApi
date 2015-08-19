@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819211704) do
+ActiveRecord::Schema.define(version: 20150819213525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150819211704) do
     t.string  "name",    limit: 255
     t.integer "user_id"
     t.boolean "towbook",             default: false
-    t.boolean "audit",               default: false
+    t.boolean "audit",               default: true
   end
 
   add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree
