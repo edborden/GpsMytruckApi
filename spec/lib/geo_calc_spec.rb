@@ -1,4 +1,3 @@
-require 'rails_helper'
 require 'geo_calc'
 
 describe GeoCalc do

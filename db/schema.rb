@@ -11,51 +11,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150806185114) do
+ActiveRecord::Schema.define(version: 20150819211704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "companies", force: true do |t|
-    t.string  "name"
+  create_table "companies", force: :cascade do |t|
+    t.string  "name",    limit: 255
     t.integer "user_id"
-    t.boolean "towbook", default: false
-    t.boolean "audit",   default: false
+    t.boolean "towbook",             default: false
+    t.boolean "audit",               default: false
   end
 
   add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree
 
-  create_table "devices", force: true do |t|
-    t.string  "hardware_id"
+  create_table "devices", force: :cascade do |t|
+    t.string  "hardware_id",     limit: 255
     t.integer "company_id"
-    t.string  "truck_id"
-    t.integer "locations_count", default: 0,     null: false
-    t.boolean "driving",         default: false
+    t.string  "truck_id",        limit: 255
+    t.integer "locations_count",             default: 0,     null: false
+    t.boolean "driving",                     default: false
   end
 
   add_index "devices", ["company_id"], name: "index_devices_on_company_id", using: :btree
   add_index "devices", ["hardware_id"], name: "index_devices_on_hardware_id", using: :btree
 
-  create_table "locations", force: true do |t|
-    t.decimal  "lat"
-    t.decimal  "lng"
-    t.datetime "time"
-    t.integer  "device_id"
+  create_table "locations", force: :cascade do |t|
+    t.decimal  "lat",                                                      null: false
+    t.decimal  "lng",                                                      null: false
+    t.datetime "time",                                                     null: false
+    t.integer  "device_id",                                                null: false
     t.decimal  "distance_traveled", precision: 10, scale: 3, default: 0.0
     t.integer  "event_code"
   end
 
-  create_table "sessions", force: true do |t|
-    t.string  "token"
-    t.integer "sessionable_id",             null: false
-    t.string  "sessionable_type", limit: 7, null: false
+  add_index "locations", ["device_id"], name: "index_locations_on_device_id", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.string  "token",            limit: 255
+    t.integer "sessionable_id",               null: false
+    t.string  "sessionable_type", limit: 7,   null: false
   end
 
   add_index "sessions", ["sessionable_id", "sessionable_type"], name: "index_sessions_on_sessionable_id_and_sessionable_type", using: :btree
 
-  create_table "users", force: true do |t|
-    t.string "email"
-    t.string "password_digest"
+  create_table "users", force: :cascade do |t|
+    t.string "email",           limit: 255
+    t.string "password_digest", limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
