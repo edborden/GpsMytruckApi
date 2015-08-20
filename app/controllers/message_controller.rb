@@ -50,7 +50,7 @@ class MessageController < ApplicationController
 
 					else
 
-						if event_code == 45 && gps_speed > 30 && device.should_start_driving? location
+						if event_code == 45 && gps_speed > 30 && device.should_start_driving?(location)
 
 							location.save
 							device.set_driving
