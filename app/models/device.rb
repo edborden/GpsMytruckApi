@@ -13,13 +13,13 @@ class Device < ActiveRecord::Base
 	end
 
 	def should_stop_driving? location
-		last_locations = locations.order(time: :desc).first(3)
+		last_locations = locations.last(3)
 		last_locations.push location
 		TotalMileageReport.new(last_locations).run < 0.25
 	end
 
 	def should_start_driving? location
-		last_location = locations.order(:time).last
+		last_location = locations.last
 		distance = LocationDistance.new(location,last_location).in_miles
 		distance > 0.25
 	end
