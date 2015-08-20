@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819213525) do
+ActiveRecord::Schema.define(version: 20150820164211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20150819213525) do
     t.integer  "event_code"
   end
 
-  add_index "locations", ["device_id"], name: "index_locations_on_device_id", using: :btree
+  add_index "locations", ["device_id", "time"], name: "index_locations_on_device_id_and_time", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.string  "token",            limit: 255

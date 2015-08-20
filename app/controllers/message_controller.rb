@@ -9,6 +9,7 @@ class MessageController < ApplicationController
 		lng = params[:data][:gps_longitude]
 		time = Moment.new(params[:data][:event_timestamp]).to_ruby
 		event_code = params[:data][:event_code].to_i
+		gps_speed = params[:data][:gps_speed].to_f
 
 		device = Device.find_by hardware_id: hardware_id
 
@@ -49,7 +50,7 @@ class MessageController < ApplicationController
 
 					else
 
-						if device.should_start_driving? location
+						if event_code == 45 && gps_speed > 30 && device.should_start_driving? location
 
 							location.save
 							device.set_driving

@@ -67,7 +67,6 @@ GEM
       iron_core (>= 1.0.6)
       rubyzip (>= 1.0.0)
     json (1.8.3)
-    le (2.6.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -171,7 +170,6 @@ DEPENDENCIES
   httparty
   iron_worker
   iron_worker_ng
-  le
   newrelic_rpm
   pg
   rack-cors
