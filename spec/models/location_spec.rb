@@ -27,6 +27,19 @@ describe Location do
 
 	end
 
+	describe "#set_distance_traveled" do
+
+		let(:device) { create :device }
+		let!(:location1) { create :location,lat:40.0001,lng:-74.0001,device:device }
+		let!(:location2) { build :location,lat:40.0,lng:-74.0,device:device }
+
+		it "sets distance traveled" do
+			location2.set_distance_traveled
+			expect(location2.distance_traveled.round(5).to_s).to eq 0.0087.to_s
+		end
+
+	end
+
 	context "device with locations" do
 
 		let(:device) { create :device_with_locations,locations_count:30 }
