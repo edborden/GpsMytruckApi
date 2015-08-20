@@ -6,16 +6,27 @@ class TotalMileageReport
 
 	def run
 		last_location = nil
-		total_meters = 0
-		@locations.find_each_with_order do |location|
-			if last_location
-				distance = LocationDistance.new(last_location,location).in_meters
-				total_meters += distance
+		total_miles = 0
+
+		if @locations.count > 999
+			@locations.find_each_with_order do |location|
+				if last_location
+					distance = LocationDistance.new(last_location,location).in_miles
+					total_miles += distance
+				end
+				last_location = location
 			end
-			last_location = location
+		else
+			@locations.each do |location|
+				if last_location
+					distance = LocationDistance.new(last_location,location).in_miles
+					total_miles += distance
+				end
+				last_location = location
+			end
 		end
-		total_miles = GeoCalc::meters_to_miles(total_meters)
-		total_miles.round(2)
+
+		total_miles.round(3)
 	end
 
 end

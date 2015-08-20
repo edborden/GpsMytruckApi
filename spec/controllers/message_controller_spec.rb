@@ -7,7 +7,7 @@ describe MessageController do
 				gps_latitude: Faker::Address.latitude,
 				gps_longitude: Faker::Address.longitude,
 				event_timestamp: "2015-04-30T19:15:07.884Z",
-				event_code: 33
+				event_code: 45
 			}
 		}
 	}

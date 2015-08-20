@@ -15,52 +15,48 @@ class MessageController < ApplicationController
 		if device
 
 			company = device.company
-			location = Location.new lat:lat,lng:lng,time:time,device_id:device.id,event_code:event_code,distance_traveled:0
+			location = Location.new lat:lat,lng:lng,time:time,device_id:device.id,event_code:event_code
 
 			if location.valid?
 
-				if company.towbook
-					TowbookHandler.new.post hardware_id,lat,lng,time
+				#if company.towbook
+					#TowbookHandler.new.post hardware_id,lat,lng,time
 					#IronWorkerHandler.new.handle :task,"towbook", {hardware_id:hardware_id,lat:lat,lng:lng,time:time}
-				end
+				#end
 
 				if company.audit
 
-					last_device_location = device.locations.order(:time).last
-					if last_device_location
-						distance_traveled = LocationDistance.new(last_device_location,location).in_miles
-						location.distance_traveled = distance_traveled
-					end
-
-					location.save
-
-					puts event_code,device.driving
-
+					location.set_distance_traveled
 					push_to_hos = hardware_id == "357330051149722" || hardware_id == "357330051056018" || hardware_id == "352648068890763" || hardware_id == "352648067497321"
-					hos_event = event_code == 33 || event_code == 35 || event_code == 45 || event_code == 40 || event_code == 50
-					if push_to_hos && hos_event
-						if device.driving
 
-							if event_code == 35 || event_code == 45
-								HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_code,distance_traveled
-								#IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:location.distance_traveled}
-							end
+					location.save unless device.locations.exists? #initialize first location for device
+
+					if device.driving
+
+						if device.should_stop_driving?(location) || event_code == 15 #ignition off
+
+							device.set_not_driving 
+							event_name = "Travel Stop"
 
 						else
 
-							if event_code == 33
-								HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_code,0
-								#IronWorkerHandler.new.handle :task,"hos",{hardware_id:hardware_id,lat:lat,lng:lng,time:params[:data][:event_timestamp],event_code:event_code,distance_traveled:location.distance_traveled}
-							end							
+							event_name = "Drive"
 
 						end
-					end
 
-					case event_code
-					when 33
-						device.set_driving
-					when 35
-						device.set_not_driving
+						HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_name,location.distance_traveled if push_to_hos
+						location.save
+
+					else
+
+						if device.should_start_driving? location
+
+							location.save
+							device.set_driving
+							HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],"Travel Start",location.distance_traveled if push_to_hos
+
+						end
+
 					end
 
 				end
