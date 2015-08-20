@@ -27,7 +27,7 @@ group :development,:test do
 end
 
 group :production do
-	gem 'le'
+	#gem 'le'
 	gem 'rails_12factor'
 	gem 'newrelic_rpm'
 	gem 'unicorn', platforms: :ruby

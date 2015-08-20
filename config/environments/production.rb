@@ -77,5 +77,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  Rails.logger = Le.new('1bbb565b-4d09-45ab-8a83-1e5fd663e944', :debug => true, :local => true)
+  #Rails.logger = Le.new('1bbb565b-4d09-45ab-8a83-1e5fd663e944', :debug => true, :local => true)
 end
