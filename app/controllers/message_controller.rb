@@ -30,7 +30,7 @@ class MessageController < ApplicationController
 					location.set_distance_traveled
 					push_to_hos = hardware_id == "357330051149722" || hardware_id == "357330051056018" || hardware_id == "352648068890763" || hardware_id == "352648067497321"
 
-					#location.save unless device.locations.exists? #initialize first location for device
+					location.save unless device.locations.exists? #initialize first location for device
 
 					if device.driving
 

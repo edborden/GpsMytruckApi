@@ -1,13 +1,16 @@
 describe MessageController do
 
+	let(:device) { create :device }
+
 	let(:body) {
 		{
 			data: {
-				device_name: "357330051149722",
+				device_name: device.hardware_id,
 				gps_latitude: Faker::Address.latitude,
 				gps_longitude: Faker::Address.longitude,
 				event_timestamp: "2015-04-30T19:15:07.884Z",
-				event_code: 45
+				event_code: 45,
+				gps_speed: 35
 			}
 		}
 	}
@@ -25,6 +28,7 @@ describe MessageController do
 			end
 
 			it { should respond_with :no_content }
+			it {expect(Location.count).to eq 1 }
 
 	end
 
