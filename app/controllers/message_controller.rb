@@ -28,7 +28,7 @@ class MessageController < ApplicationController
 				if company.audit
 
 					location.set_distance_traveled
-					push_to_hos = hardware_id == "357330051149722" || hardware_id == "357330051056018" || hardware_id == "352648068890763" || hardware_id == "352648067497321"
+					push_to_hos = ["357330051149722","357330051056018","352648068890763","352648067497321","358901048271875","358901048809716","358901048164138"].include? hardware_id
 
 					location.save unless device.locations.exists? #initialize first location for device
 
