@@ -18,6 +18,9 @@ gem "iron_worker_ng"
 ## EMAIL
 gem 'mandrill_mailer'
 
+## ENV MANAGEMENT
+gem 'figaro'
+
 group :test do
 	gem "faker"
 	gem "shoulda"
