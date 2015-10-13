@@ -15,6 +15,9 @@ gem 'ar-find-in-batches-with-order'
 gem "iron_worker"
 gem "iron_worker_ng"
 
+## EMAIL
+gem 'mandrill_mailer'
+
 group :test do
 	gem "faker"
 	gem "shoulda"
