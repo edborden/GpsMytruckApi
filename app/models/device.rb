@@ -24,4 +24,8 @@ class Device < ActiveRecord::Base
 		distance > 0.25
 	end
 
+	def name
+		truck_id ? truck_id : hardware_id
+	end
+
 end
