@@ -8,7 +8,7 @@ describe Location do
 		it { should have_db_column(:device_id).with_options null:false }
 		it { should have_db_column :event_code }
 
-		it { should have_db_index :device_id }
+		it { should have_db_index [:device_id,:time] }
 
 	end
 
