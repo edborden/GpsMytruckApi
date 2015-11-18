@@ -1,4 +1,25 @@
 describe Device do
+
+	describe "db" do
+
+		it { should have_db_column(:hardware_id).of_type(:string).with_options limit:255 }
+		it { should have_db_column(:company_id).of_type :integer }
+		it { should have_db_column(:truck_id).of_type(:string).with_options limit:255 }
+		it { should have_db_column(:locations_count).of_type(:integer).with_options null:false, default:0 }
+		it { should have_db_column(:driving).of_type(:boolean).with_options default:false }
+		it { should have_db_column(:hos).of_type(:boolean).with_options default:false, null:false }
+
+		it { should have_db_index :company_id }
+		it { should have_db_index :hardware_id }
+
+	end
+
+	describe "associations" do
+
+		it { should belong_to(:company) }
+		it { should have_many(:locations).dependent(:destroy) }
+
+	end
 	
 	describe "#should_start_driving?" do
 
