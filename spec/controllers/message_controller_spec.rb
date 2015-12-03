@@ -15,7 +15,7 @@ describe MessageController do
 		}
 	}
 
-	describe "POST to #create"
+	describe "POST to #create" do
 
 		context "with valid basic credentials" do
 
@@ -29,6 +29,8 @@ describe MessageController do
 
 			it { should respond_with :no_content }
 			it {expect(Location.count).to eq 1 }
+
+		end
 
 	end
 
