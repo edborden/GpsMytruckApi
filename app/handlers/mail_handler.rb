@@ -1,7 +1,7 @@
 class MailHandler < MandrillMailer::MessageMailer
   include Handler
   
-  default from: "support@gpsmytruck.com"
+  default from: "jim@gpsmytruck.com"
   default from_name: "GPSMyTruck"
 
   def daily_report company, subject, body

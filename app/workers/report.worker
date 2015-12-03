@@ -1,0 +1,8 @@
+runtime "ruby"
+
+gem "httparty"
+gem "iron_worker"
+
+remote
+
+exec "report_worker.rb"
