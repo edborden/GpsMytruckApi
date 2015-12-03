@@ -1,6 +1,4 @@
 class CompaniesController < ResourceController
-  skip_before_action :set_resource, only: :report
-  skip_before_action :ensure_authenticated_user, only: :report
 
   def report
 
