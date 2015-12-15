@@ -22,7 +22,7 @@ class HosHandler
 
 		response = open uri
 
-		#puts response.read()
+		puts response.read()
 
 	end
 
