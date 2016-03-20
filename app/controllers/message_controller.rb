@@ -4,57 +4,63 @@ class MessageController < ApplicationController
 
 	def create
 
-		hardware_id = params[:data][:device_name]
-		lat = params[:data][:gps_latitude]
-		lng = params[:data][:gps_longitude]
-		time = Moment.new(params[:data][:event_timestamp]).to_ruby
-		event_code = params[:data][:event_code].to_i
-		gps_speed = params[:data][:gps_speed].to_f
+		if params[:type] == "test_ping"
+			head :no_content
+		else
 
-		device = Device.find_by hardware_id: hardware_id
+			hardware_id = params[:data][:device_name]
+			lat = params[:data][:gps_latitude]
+			lng = params[:data][:gps_longitude]
+			time = Moment.new(params[:data][:event_timestamp]).to_ruby
+			event_code = params[:data][:event_code].to_i
+			gps_speed = params[:data][:gps_speed].to_f
 
-		if device
+			device = Device.find_by hardware_id: hardware_id
 
-			company = device.company
-			location = Location.new lat:lat,lng:lng,time:time,device_id:device.id,event_code:event_code
+			if device
 
-			if location.valid?
+				company = device.company
+				location = Location.new lat:lat,lng:lng,time:time,device_id:device.id,event_code:event_code
 
-				#if company.towbook
-					#TowbookHandler.new.post hardware_id,lat,lng,time
-					#IronWorkerHandler.new.handle :task,"towbook", {hardware_id:hardware_id,lat:lat,lng:lng,time:time}
-				#end
+				if location.valid?
 
-				if company.audit
+					#if company.towbook
+						#TowbookHandler.new.post hardware_id,lat,lng,time
+						#IronWorkerHandler.new.handle :task,"towbook", {hardware_id:hardware_id,lat:lat,lng:lng,time:time}
+					#end
 
-					location.set_distance_traveled
-					push_to_hos = device.hos || ["357330051149722","357330051056018","352648068890763","352648067497321","358901048271875","358901048809716","358901048164138","358901048638008"].include?(hardware_id)
+					if company.audit
 
-					location.save unless device.locations.exists? #initialize first location for device
+						location.set_distance_traveled
+						push_to_hos = device.hos || ["357330051149722","357330051056018","352648068890763","352648067497321","358901048271875","358901048809716","358901048164138","358901048638008"].include?(hardware_id)
 
-					if device.driving
+						location.save unless device.locations.exists? #initialize first location for device
 
-						if device.should_stop_driving?(location) || event_code == 15 #ignition off
+						if device.driving
 
-							device.set_not_driving 
-							event_name = "Travel Stop"
+							if device.should_stop_driving?(location) || event_code == 15 #ignition off
+
+								device.set_not_driving 
+								event_name = "Travel Stop"
+
+							else
+
+								event_name = "Drive"
+
+							end
+
+							HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_name,location.distance_traveled if push_to_hos
+							location.save
 
 						else
 
-							event_name = "Drive"
+							if event_code == 45 && gps_speed > 30 && device.should_start_driving?(location)
 
-						end
+								location.save
+								device.set_driving
+								HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],"Travel Start",location.distance_traveled if push_to_hos
 
-						HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],event_name,location.distance_traveled if push_to_hos
-						location.save
-
-					else
-
-						if event_code == 45 && gps_speed > 30 && device.should_start_driving?(location)
-
-							location.save
-							device.set_driving
-							HosHandler.new.post hardware_id,lat,lng,params[:data][:event_timestamp],"Travel Start",location.distance_traveled if push_to_hos
+							end
 
 						end
 
@@ -63,9 +69,8 @@ class MessageController < ApplicationController
 				end
 
 			end
-
+			head :no_content
 		end
-		head :no_content
 	end
 
 end
